@@ -1,0 +1,105 @@
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=434;bottom=234)
+winform.add(
+button={cls="button";text="about";left=6;top=207;right=88;bottom=233;z=1}
+)
+/*}}*/
+ 
+import console
+console.open()
+ 
+/* 一些常量
+CWParsePatternType={
+    cwNumberParser=0;
+    cwUserDefined=1
+};
+ 
+CWGPIBTimeoutValues={
+    cwGPIBTimeoutTNone=0;
+    cwGPIBTimeoutT30ms=8;
+    cwGPIBTimeoutT30us=2;
+    cwGPIBTimeoutT10ms=7;
+    cwGPIBTimeoutT10us=1;
+    cwGPIBTimeoutT300ms=10;
+    cwGPIBTimeoutT300us=4;
+    cwGPIBTimeoutT3ms=6;
+    cwGPIBTimeoutT100s=15;
+    cwGPIBTimeoutT100us=3;
+    cwGPIBTimeoutT1ms=5;
+    cwGPIBTimeoutT100ms=9;
+    cwGPIBTimeoutT3s=12;
+    cwGPIBTimeoutT10s=13;
+    cwGPIBTimeoutT1s=11;
+    cwGPIBTimeoutT30s=14
+};
+ 
+CWGPIBNotifyMask={
+    cwGPIBCMPL=256;
+    cwGPIBEND=8192;
+    cwGPIBTIMO=16384;
+    cwGPIBNone=0;
+    cwGPIBRQS=2048
+};
+ 
+*/
+ 
+ 
+var gpibObj = com.CreateObject("CWInstrumentControlLib.CWGPIB.1");
+//只读
+console.log( gpibObj.DeviceID );
+//
+gpibObj.Reset();
+//gpibObj.Stop();
+//gpibObj.Trigger();
+//console.log( gpibObj.Wait(0) );
+//gpibObj.Write( "*IDN?" );
+//gpibObj.WriteAsync( "*IDN?" );
+//gpibObj.WriteFromFile( "C:\Users\Administrator\Desktop\gpib\demo.txt" );
+console.log( gpibObj.Unaddressing );
+gpibObj.setTimeoutValue(11);
+console.dump( gpibObj.Tasks );
+console.log( gpibObj.SwapBytes );
+gpibObj.setSwapBytes(true);
+//console.log( gpibObj.SerialPoll() );
+//gpibObj.ReadToFile("C:\Users\Administrator\Desktop\gpib\cc.txt");
+//console.log( gpibObj.ReadAsync(100) );//同步读
+//console.log( gpibObj.Read(100) ); 
+gpibObj.setPrimaryAddress(1);
+console.log( gpibObj.PrimaryAddress );
+console.log( gpibObj.SecondaryAddress );
+  
+//gpibObj.ParallelPollConfig(5); 
+//console.log( gpibObj.ParallelPoll() );
+gpibObj.setNotifyMask(0);
+console.log( gpibObj.getNotifyMask() );
+//gpibObj.Notify()
+//gpibObj.GotoLocal();
+//console.log( gpibObj.IsOnline() )
+//gpibObj.ExportStyle("C:\Users\Administrator\Desktop\gpib\aa.txt");
+//gpibObj.ImportStyle("C:\Users\Administrator\Desktop\gpib\aa.txt"); 
+gpibObj.setExceptionOnError(true);
+gpibObj.setEOTMode(true);
+gpibObj.setEOSEndsRead(true);
+gpibObj.setEOSChar('\r\n');
+gpibObj.setEOIWithEOS(true);
+gpibObj.setDefaultBufferSize(5000);
+console.log( gpibObj.DefaultBufferSize );
+gpibObj.setDataAsString(true);
+console.log(gpibObj.DataAsString)
+//gpibObj.setBoardNumber(1);
+//gpibObj.Configure()
+gpibObj.setCompare8Bits(false);
+console.log(gpibObj.Compare8Bits)
+//gpibObj.Clear();
+ 
+console.log( gpibObj.BytesWritten ); 
+//gpibObj.ChangePrimaryAddress(0);
+//gpibObj.ChangeSecondaryAddress(1);
+ 
+winform.button.oncommand = function(id,event){
+    gpibObj.AboutBox()
+}
+ 
+winform.show();
+win.loopMessage();
