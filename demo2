@@ -1,0 +1,61 @@
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=434;bottom=234)
+winform.add(
+button={cls="button";text="about";left=6;top=207;right=88;bottom=233;z=1};
+button2={cls="button";text="IDN";left=263;top=77;right=345;bottom=103;z=2};
+button3={cls="button";text="PE";left=264;top=112;right=346;bottom=138;z=3};
+button4={cls="button";text="Dp";left=265;top=153;right=347;bottom=179;z=4};
+)
+/*}}*/
+ 
+import console
+console.open()
+ 
+var gpibObj = com.CreateObject("CWInstrumentControlLib.CWGPIB.1");
+gpibObj.Reset();
+//设置超时1s
+gpibObj.setTimeoutValue(11);
+//设置: 地址BN,PAD,SAD
+gpibObj.setBoardNumber(0);
+gpibObj.setPrimaryAddress(1);
+gpibObj.setSecondaryAddress(0);
+//是否开启异常处理错误提示
+gpibObj.setExceptionOnError(true);
+gpibObj.setEOTMode(true);
+gpibObj.setEOSEndsRead(true);
+gpibObj.setDefaultBufferSize(5000);
+gpibObj.setDataAsString(true);
+gpibObj.Configure()
+ //只读
+console.log("DeviceID", gpibObj.DeviceID );
+console.log("IsOnline", gpibObj.IsOnline() )
+ 
+winform.button.oncommand = function(id,event){
+    gpibObj.AboutBox()
+}
+ 
+winform.button2.oncommand = function(id,event){
+    gpibObj.Write( "*IDN?" );
+    var ret = gpibObj.Read(100);
+    console.log( ret ); 
+    console.log( #ret ); 
+}
+ 
+winform.button3.oncommand = function(id,event){
+    gpibObj.Write( "PE" );
+    var ret = gpibObj.Read(100);
+    console.log(ret );
+    console.log( #ret ); 
+}
+ 
+winform.button4.oncommand = function(id,event){
+    gpibObj.Write( "DP" );
+    var ret = gpibObj.Read(100);
+    console.log(ret );
+    console.log( #ret ); 
+}
+ 
+ 
+winform.show();
+win.loopMessage();
